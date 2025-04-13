@@ -2,7 +2,7 @@
 import {randomInt} from "crypto";
 
 function getRandomChar():string{
-    const charset:string = "abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?!@-="
+    const charset:string = "abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ç!@ã="
     const index:number = randomInt(0, charset.length);
     return charset[index];
 }
