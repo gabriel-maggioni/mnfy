@@ -52,14 +52,18 @@ app.get("/:id", async (request, reply) => {
         const { id } = request.params as { id?: string };
         if (!id) return reply.status(400).send({ statusCode: 400, message: "Bad Request" });
     
-        const cachedLink = cache.get(`${request.ip}:${id}`);
-            if (cachedLink) return reply.code(200).send({ statusCode: 200, message: "Success", response: cachedLink });
+        const cachedLink:any = cache.get(`${request.ip}:${id}`);
+            if (cachedLink) {
+                reply.code(301).redirect(cachedLink.url)
+                return;
+            }
     
             const updatedLink = await db.updateClicks(id);
             if (!updatedLink) return reply.status(400).send({ statusCode: 400, message: "Bad Request" });
     
-            reply.code(200).send({ statusCode: 200, message: "Success", response: updatedLink });
+            //reply.code(200).send({ statusCode: 200, message: "Success", response: updatedLink });
             cache.set(`${request.ip}:${id}`, updatedLink);
+            reply.code(301).redirect(updatedLink.url)
             return;
     }, reply)
     
