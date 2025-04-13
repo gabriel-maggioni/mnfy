@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import rateLimit from "@fastify/rate-limit";
+import cors from "@fastify/cors";
 
 import generateRandomID from "./utils/generateRandomID.js";
 import validateOrigin from "./utils/validateOrigin.js";
@@ -17,6 +18,10 @@ await app.register(rateLimit, {
     timeWindow: '1 minute',
 });
 
+await app.register(cors, {
+    origin: '*', // ou define uma lista específica tipo ['http://127.0.0.1:5500']
+  });
+
 app.get("/all", async (request, reply) => {
 await handleErrors(async()=>{
     const links = await db.getAll();
@@ -28,7 +33,7 @@ await handleErrors(async()=>{
 }, reply);
 });
 
-app.post("/short", {preHandler: validateOrigin}, async (request, reply) => {
+app.post("/short", /*{preHandler: validateOrigin},*/ async (request, reply) => {
 
 await handleErrors(async()=>{
     const { url } = request.body as { url: string };
