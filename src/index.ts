@@ -60,6 +60,7 @@ app.get("/:id", async (request, reply) => {
     
     });
 
-app.listen({ port: 3000 }, () => {
-    console.log("App em execução");
+let port:any = process?.env?.PORT && process.env.PORT || 3000;
+app.listen({ port }, () => {
+    console.log("App em execução na porta " + port);
 });
