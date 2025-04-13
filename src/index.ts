@@ -61,6 +61,7 @@ app.get("/:id", async (request, reply) => {
     });
 
 let port:any = process?.env?.PORT && process.env.PORT || 3000;
-app.listen({ port }, () => {
-    console.log("App em execução na porta " + port);
+app.listen({ port, host: "0.0.0.0" }, (err, adress) => {
+    console.log("App em execução na porta " + adress);
+    if (err) console.log("Listen error: ", err)
 });
